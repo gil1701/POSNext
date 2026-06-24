@@ -540,7 +540,7 @@
 						<!-- Item Details -->
 						<div class="min-w-0">
 							<h3
-								class="text-[10px] sm:text-xs font-semibold text-gray-900 truncate mb-0.5 leading-tight"
+								class="text-[10px] sm:text-xs font-semibold text-gray-900 mb-0.5 leading-tight whitespace-normal break-words"
 							>
 								{{ item.item_name }}
 							</h3>
@@ -550,8 +550,6 @@
 							>
 								{{ Object.values(item.attributes).join(" / ") }}
 							</p>
-
-							//*****************
 							<div
 								v-if="item.custom_ubicacion || item.custom_referencia"
 								class="text-[8px] sm:text-[9px] text-gray-500 leading-tight mt-0.5 space-y-0.5"
@@ -574,9 +572,6 @@
 									{{ item.custom_referencia }}
 								</div>
 							</div>
-
-							//******************
-
 							<p class="text-[9px] sm:text-[10px] text-gray-500 leading-tight">
 								<span class="font-semibold text-blue-600">{{
 									formatCurrency(item.rate || item.price_list_rate || 0)
@@ -737,12 +732,14 @@
 							>
 								{{ __("Image") }}
 							</th>
+
 							<th
 								scope="col"
-								class="px-2 sm:px-3 py-2 sm:py-2.5 text-start text-[10px] sm:text-xs font-semibold text-gray-700 uppercase tracking-wider bg-gray-50 border-b-2 border-gray-200 sticky top-0 z-10 max-w-[120px] sm:max-w-[180px] md:max-w-[200px]"
+								class="px-2 sm:px-3 py-2 sm:py-2.5 text-start text-[10px] sm:text-xs font-semibold text-gray-700 uppercase tracking-wider bg-gray-50 border-b-2 border-gray-200 sticky top-0 z-10 min-w-[220px] sm:min-w-[280px] md:min-w-[360px]"
 							>
 								{{ __("Name") }}
 							</th>
+
 							<th
 								scope="col"
 								class="hidden sm:table-cell px-2 sm:px-3 py-2 sm:py-2.5 text-start text-[10px] sm:text-xs font-semibold text-gray-700 uppercase tracking-wider bg-gray-50 border-b-2 border-gray-200 sticky top-0 z-10 sm:max-w-[150px]"
@@ -824,14 +821,16 @@
 								</div>
 							</td>
 							<td
-								class="px-2 sm:px-3 py-2 max-w-[120px] sm:max-w-[180px] md:max-w-[200px]"
+								class="px-2 sm:px-3 py-2 min-w-[220px] sm:min-w-[280px] md:min-w-[360px]"
 							>
-								<div
-									class="text-xs sm:text-sm font-medium text-gray-900 truncate"
+
+							<div
+									class="text-xs sm:text-sm font-medium text-gray-900 whitespace-normal break-words"
 									:title="item.item_name"
 								>
 									{{ item.item_name }}
 								</div>
+
 								<div
 									v-if="item.attributes"
 									class="text-[8px] sm:text-[9px] text-gray-400 truncate leading-tight"
