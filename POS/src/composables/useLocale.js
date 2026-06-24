@@ -55,6 +55,12 @@ export const SUPPORTED_LOCALES = {
 		countryCode: "br",
 		dir: "ltr",
 	},
+	es: {
+		name: "Spanish",
+		nativeName: "Español",
+		countryCode: "do",
+		dir: "ltr",
+	},
 };
 
 /**
