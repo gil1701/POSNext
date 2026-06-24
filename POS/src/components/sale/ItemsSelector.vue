@@ -550,6 +550,33 @@
 							>
 								{{ Object.values(item.attributes).join(" / ") }}
 							</p>
+
+							//*****************
+							<div
+								v-if="item.custom_ubicacion || item.custom_referencia"
+								class="text-[8px] sm:text-[9px] text-gray-500 leading-tight mt-0.5 space-y-0.5"
+							>
+								<div
+									v-if="item.custom_ubicacion"
+									class="truncate"
+									:title="item.custom_ubicacion"
+								>
+									<span class="font-medium text-gray-600">{{ __("Ubicación") }}:</span>
+									{{ item.custom_ubicacion }}
+								</div>
+
+								<div
+									v-if="item.custom_referencia"
+									class="truncate"
+									:title="item.custom_referencia"
+								>
+									<span class="font-medium text-gray-600">{{ __("Referencia") }}:</span>
+									{{ item.custom_referencia }}
+								</div>
+							</div>
+
+							//******************
+
 							<p class="text-[9px] sm:text-[10px] text-gray-500 leading-tight">
 								<span class="font-semibold text-blue-600">{{
 									formatCurrency(item.rate || item.price_list_rate || 0)
@@ -810,6 +837,28 @@
 									class="text-[8px] sm:text-[9px] text-gray-400 truncate leading-tight"
 								>
 									{{ Object.values(item.attributes).join(" / ") }}
+								</div>
+								<div
+									v-if="item.custom_ubicacion || item.custom_referencia"
+									class="text-[10px] sm:text-xs text-gray-500 leading-tight mt-0.5 space-y-0.5"
+								>
+									<div
+										v-if="item.custom_ubicacion"
+										class="truncate"
+										:title="item.custom_ubicacion"
+									>
+										<span class="font-medium text-gray-600">{{ __("Ubicación") }}:</span>
+										{{ item.custom_ubicacion }}
+									</div>
+
+									<div
+										v-if="item.custom_referencia"
+										class="truncate"
+										:title="item.custom_referencia"
+									>
+										<span class="font-medium text-gray-600">{{ __("Referencia") }}:</span>
+										{{ item.custom_referencia }}
+									</div>
 								</div>
 							</td>
 							<td

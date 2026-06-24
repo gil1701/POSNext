@@ -12,6 +12,22 @@ from frappe.query_builder import DocType
 from frappe.query_builder import functions as fn
 from frappe.utils import flt, nowdate
 
+# ITEM_RESULT_FIELDS = [
+# 	"name as item_code",
+# 	"item_name",
+# 	"description",
+# 	"stock_uom",
+# 	"image",
+# 	"is_stock_item",
+# 	"has_batch_no",
+# 	"has_serial_no",
+# 	"item_group",
+# 	"brand",
+# 	"has_variants",
+# 	"variant_of",
+# 	"disabled",
+# ]
+
 ITEM_RESULT_FIELDS = [
 	"name as item_code",
 	"item_name",
@@ -23,6 +39,8 @@ ITEM_RESULT_FIELDS = [
 	"has_serial_no",
 	"item_group",
 	"brand",
+	"custom_ubicacion",
+	"custom_referencia",
 	"has_variants",
 	"variant_of",
 	"disabled",
@@ -253,10 +271,26 @@ def get_item_detail(item, doc=None, warehouse=None, price_list=None, company=Non
 	# Fetch all needed Item fields in a single query (performance optimization)
 	item_data = (
 		frappe.db.get_value(
-			"Item", item_code, ["max_discount", "item_group", "brand", "stock_uom"], as_dict=True
+			"Item",
+			item_code,
+			[
+				"max_discount",
+				"item_group",
+				"brand",
+				"stock_uom",
+				"custom_ubicacion",
+				"custom_referencia",
+			],
+			as_dict=True,
 		)
 		or {}
 	)
+	# item_data = (
+	# 	frappe.db.get_value(
+	# 		"Item", item_code, ["max_discount", "item_group", "brand", "stock_uom"], as_dict=True
+	# 	)
+	# 	or {}
+	# )
 
 	# Prepare args dict for get_item_details - only include necessary fields
 	args = frappe._dict(
@@ -283,6 +317,8 @@ def get_item_detail(item, doc=None, warehouse=None, price_list=None, company=Non
 	res["serial_no_data"] = serial_no_data
 	res["item_group"] = item_data.get("item_group")
 	res["brand"] = item_data.get("brand")
+	res["custom_ubicacion"] = item_data.get("custom_ubicacion")
+	res["custom_referencia"] = item_data.get("custom_referencia")
 
 	# Add UOMs data
 	uoms = frappe.get_all(
@@ -368,8 +404,17 @@ def search_by_barcode(barcode, pos_profile):
 			"has_batch_no": item_doc.has_batch_no or 0,
 			"has_serial_no": item_doc.has_serial_no or 0,
 			"is_stock_item": item_doc.is_stock_item or 0,
+			"custom_ubicacion": item_doc.get("custom_ubicacion"),
+			"custom_referencia": item_doc.get("custom_referencia"),
 			"pos_profile": pos_profile,
 		}
+		# item = {
+		# 	"item_code": item_code,
+		# 	"has_batch_no": item_doc.has_batch_no or 0,
+		# 	"has_serial_no": item_doc.has_serial_no or 0,
+		# 	"is_stock_item": item_doc.is_stock_item or 0,
+		# 	"pos_profile": pos_profile,
+		# }
 
 		# Include UOM from barcode if available
 		if barcode_uom:
@@ -525,6 +570,8 @@ def get_item_variants(template_item, pos_profile):
 				Item.has_serial_no,
 				Item.item_group,
 				Item.brand,
+				Item.custom_ubicacion,
+				Item.custom_referencia,
 				Item.variant_of,
 			)
 			.where(Item.variant_of == template_item)
