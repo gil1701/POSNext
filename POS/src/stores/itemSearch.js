@@ -558,18 +558,51 @@ export const useItemSearchStore = defineStore("itemSearch", () => {
 
 		// Step 4: Inject live stock quantities (optimized)
 		// Use a simple map operation - O(n) complexity
-		const itemsWithStock = list.map((item) => {
-			// Get display stock (includes reservations from cart)
-			const displayStock = stockStore.getDisplayStock(item.item_code);
-			// Get original server stock (without reservations)
-			const originalStock = stockStore.server.get(item.item_code)?.qty || 0;
+		// const itemsWithStock = list.map((item) => {git
+		// 	// Get display stock (includes reservations from cart)
+		// 	const displayStock = stockStore.getDisplayStock(item.item_code);
+		// 	// Get original server stock (without reservations)
+		// 	const originalStock = stockStore.server.get(item.item_code)?.qty || 0;
+		//
+		// 	// Return item with updated stock quantities
+		// 	return {
+		// 		...item,
+		// 		actual_qty: displayStock,
+		// 		stock_qty: displayStock,
+		// 		original_stock: originalStock,
+		// 	};
+		// });
 
-			// Return item with updated stock quantities
+		const itemsWithStock = list.map((item) => {
+			// Stock visible en pantalla: descuenta lo que ya está en el carrito
+			const displayStock = stockStore.getDisplayStock(item.item_code);
+
+			// Stock original del servidor: no debe descontar el carrito
+			const serverStock = stockStore.server.get(item.item_code)?.qty;
+
+			const originalStock = Number(
+				serverStock ??
+				item.original_actual_qty ??
+				item.original_stock_qty ??
+				item.original_stock ??
+				item.available_qty ??
+				item.stock_qty ??
+				item.actual_qty ??
+				0
+			);
+
 			return {
 				...item,
+
+				// Cantidad visual restante
 				actual_qty: displayStock,
 				stock_qty: displayStock,
+
+				// Cantidad original para validación
+				available_qty: originalStock,
 				original_stock: originalStock,
+				original_actual_qty: originalStock,
+				original_stock_qty: originalStock,
 			};
 		});
 

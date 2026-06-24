@@ -38,7 +38,19 @@ export function shouldValidateItemStock(item) {
  * @returns {{ available: boolean, actualQty: number, error: string|null }}
  */
 export function checkStockAvailability(item, requestedQty, warehouse) {
-	const actualQty = item.actual_qty ?? item.stock_qty ?? 0;
+	// const actualQty = item.actual_qty ?? item.stock_qty ?? 0;
+
+	const actualQty = Number(
+		item.original_actual_qty ??
+		item.original_stock_qty ??
+		item.available_qty ??
+		item.available_stock_qty ??
+		item.initial_actual_qty ??
+		item.stock_qty ??
+		item.actual_qty ??
+		0
+	);
+
 	const wh = warehouse || item.warehouse || "";
 
 	if (actualQty >= requestedQty) {

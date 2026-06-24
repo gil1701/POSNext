@@ -1504,11 +1504,27 @@ def get_items(
 			# Example 3 - Service Item (Consulting):
 			#   is_stock_item = 0
 			#   actual_qty = 0 (not a bundle, no stock tracking)
-			item["actual_qty"] = (
-				stock_map.get(item["item_code"], 0)
-				if item.get("is_stock_item")
-				else bundle_availability_map.get(item["item_code"], 0)
-			)
+			# item["actual_qty"] = (
+			# 	stock_map.get(item["item_code"], 0)
+			# 	if item.get("is_stock_item")
+			# 	else bundle_availability_map.get(item["item_code"], 0)
+			# )
+			if item.get("is_stock_item"):
+				available_qty = flt(stock_map.get(item["item_code"], 0))
+
+				item["actual_qty"] = available_qty
+				item["stock_qty"] = available_qty
+				item["available_qty"] = available_qty
+				item["original_actual_qty"] = available_qty
+				item["original_stock_qty"] = available_qty
+			else:
+				available_qty = flt(bundle_availability_map.get(item["item_code"], 0))
+
+				item["actual_qty"] = available_qty
+				item["stock_qty"] = available_qty
+				item["available_qty"] = available_qty
+				item["original_actual_qty"] = available_qty
+				item["original_stock_qty"] = available_qty
 
 			# ===================================================================
 			# BUNDLE MARKER: Flag items that are Product Bundles
@@ -1721,12 +1737,29 @@ def get_items_bulk(
 			item["price_list_rate_price_uom"] = item["rate"]
 
 			# Stock: stock items use Bin, bundles use component-based availability
-			item["actual_qty"] = (
-				stock_map.get(item_code, 0)
-				if item.get("is_stock_item")
-				else bundle_availability_map.get(item_code, 0)
-			)
-			item["warehouse"] = warehouse
+			# item["actual_qty"] = (
+			# 	stock_map.get(item_code, 0)
+			# 	if item.get("is_stock_item")
+			# 	else bundle_availability_map.get(item_code, 0)
+			# )
+			if item.get("is_stock_item"):
+				available_qty = flt(stock_map.get(item_code, 0))
+
+				item["actual_qty"] = available_qty
+				item["stock_qty"] = available_qty
+				item["available_qty"] = available_qty
+				item["original_actual_qty"] = available_qty
+				item["original_stock_qty"] = available_qty
+			else:
+				available_qty = flt(bundle_availability_map.get(item_code, 0))
+
+				item["actual_qty"] = available_qty
+				item["stock_qty"] = available_qty
+				item["available_qty"] = available_qty
+				item["original_actual_qty"] = available_qty
+				item["original_stock_qty"] = available_qty
+
+				item["warehouse"] = warehouse
 
 			# Bundle marker
 			if item_code in bundle_availability_map:
