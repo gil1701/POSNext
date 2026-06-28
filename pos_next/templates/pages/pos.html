@@ -1,6 +1,15 @@
 {% extends "templates/web.html" %}
 
 {% block header %}
+<meta charset="UTF-8" />
+<link rel="icon" href="/assets/pos_next/pos/favicon.svg" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
+<meta name="theme-color" content="#4F46E5" />
+<meta name="description" content="POS built on ERPNext" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<meta name="apple-mobile-web-app-title" content="POSNext" />
 {% endblock %}
 
 {% block content %}
@@ -8,10 +17,5 @@
 {% endblock %}
 
 {% block script %}
-<script type="module">
-    import { createApp } from 'vue';
-    // En producción, Frappe debería servir el archivo index.js generado por Vite
-    // Pero como estamos viendo un 404, necesitamos asegurar que el build de Vite
-    // coloque los archivos donde Frappe los busca.
-</script>
+{# Los assets se incluyen vía hooks.py web_include_js y web_include_css #}
 {% endblock %}

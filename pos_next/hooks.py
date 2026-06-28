@@ -259,5 +259,11 @@ website_route_rules = [
 _asset_version = get_build_version()
 
 # include js, css files in header of web template
-web_include_css = f"/assets/pos_next/pos/assets/index.css?v={_asset_version}"
-web_include_js = f"/assets/pos_next/pos/assets/index.js?v={_asset_version}"
+web_include_css = [
+	f"/assets/pos_next/pos/assets/index.css?v={_asset_version}",
+	f"/assets/pos_next/pos/assets/vendor.css?v={_asset_version}"
+]
+web_include_js = [
+	f"/assets/pos_next/pos/assets/vendor.js?v={_asset_version}",
+	f"/assets/pos_next/pos/assets/index.js?v={_asset_version}"
+]

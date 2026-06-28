@@ -217,9 +217,9 @@ export default defineConfig({
 				manualChunks: {
 					vendor: ["vue", "vue-router", "pinia", "frappe-ui", "feather-icons"],
 				},
-				entryFileNames: "assets/[name].js",
-				chunkFileNames: "assets/[name]-[hash].js",
-				assetFileNames: "assets/[name]-[hash].[ext]",
+				entryFileNames: "assets/index.js",
+				chunkFileNames: "assets/[name].js",
+				assetFileNames: "assets/[name].[ext]",
 			},
 		},
 	},
