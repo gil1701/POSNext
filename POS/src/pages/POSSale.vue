@@ -903,9 +903,37 @@
 					</div>
 				</template>
 				<template #actions>
-					<div class="flex gap-2">
+					<div class="flex flex-wrap gap-2 justify-center">
 						<Button variant="subtle" @click="uiStore.showSuccessDialog = false">
 							{{ __("Close") }}
+						</Button>
+						<Button
+							variant="outline"
+							@click="
+								() => {
+									shareType = 'email';
+									showShareDialog = true;
+								}
+							"
+						>
+							<template #icon>
+								<FeatherIcon name="mail" class="h-4 w-4" />
+							</template>
+							{{ __("Email") }}
+						</Button>
+						<Button
+							variant="outline"
+							@click="
+								() => {
+									shareType = 'whatsapp';
+									showShareDialog = true;
+								}
+							"
+						>
+							<template #icon>
+								<FeatherIcon name="message-circle" class="h-4 w-4" />
+							</template>
+							{{ __("WhatsApp") }}
 						</Button>
 						<Button
 							variant="solid"
@@ -917,6 +945,9 @@
 								}
 							"
 						>
+							<template #icon>
+								<FeatherIcon name="printer" class="h-4 w-4" />
+							</template>
 							{{ __("Print Invoice") }}
 						</Button>
 					</div>
@@ -979,6 +1010,15 @@
 				@confirm="confirmClearCache"
 			/>
 
+			<!-- Share Invoice Dialog -->
+			<ShareInvoiceDialog
+				v-model:show="showShareDialog"
+				:type="shareType"
+				:invoice-name="uiStore.lastInvoiceName"
+				:initial-email="cartStore.customer?.email_id"
+				:initial-mobile="cartStore.customer?.mobile_no"
+			/>
+
 			<!-- Footer -->
 			<POSFooter />
 		</template>
@@ -1006,6 +1046,7 @@ import POSFooter from "@/components/common/POSFooter.vue";
 import ManagementSlider from "@/components/pos/ManagementSlider.vue";
 import POSHeader from "@/components/pos/POSHeader.vue";
 import BatchSerialDialog from "@/components/sale/BatchSerialDialog.vue";
+import ShareInvoiceDialog from "@/components/sale/ShareInvoiceDialog.vue";
 import CouponDialog from "@/components/sale/CouponDialog.vue";
 import CreateCustomerDialog from "@/components/sale/CreateCustomerDialog.vue";
 import CustomerDialog from "@/components/sale/CustomerDialog.vue";
@@ -1042,7 +1083,7 @@ import {
 } from "@/utils/printInvoice";
 import { qzConnected, connect as qzConnect, disconnect as qzDisconnect } from "@/utils/qzTray";
 
-import { Button, Dialog, createResource } from "frappe-ui";
+import { Button, Dialog, FeatherIcon, createResource } from "frappe-ui";
 import { call } from "@/utils/apiWrapper";
 import { computed, onMounted, onUnmounted, ref, watch } from "vue";
 import { useToast } from "@/composables/useToast";
@@ -1063,6 +1104,10 @@ import { shouldValidateItemStock } from "@/utils/stockValidator";
 
 // Initialize stores
 const cartStore = usePOSCartStore();
+
+// Share Invoice Dialog State
+const showShareDialog = ref(false);
+const shareType = ref("email"); // "email" or "whatsapp"
 const shiftStore = usePOSShiftStore();
 const uiStore = usePOSUIStore();
 const offlineStore = usePOSSyncStore();
