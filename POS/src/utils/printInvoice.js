@@ -4,10 +4,16 @@ import { getOfflineReceiptPayload } from "@/utils/offline/offlineReceiptCache";
 import { getOfflineInvoiceByOfflineId } from "@/utils/offline/sync";
 import { offlineWorker } from "@/utils/offline/workerClient";
 import { printHTML as qzPrintHTML } from "@/utils/qzTray";
+// Import para compartir factura por email y whatsapp
+import InvoiceShareDialog from '@/components/sale/InvoiceShareDialog.vue'
 
 const log = logger.create("PrintInvoice");
 
 const DEFAULT_PRINT_FORMAT = "POS Next Receipt";
+
+//  Estados requeridos para compartir factura por email y whatsapp
+const showInvoiceEmailDialog = ref(false)
+const showInvoiceWhatsappDialog = ref(false)
 
 // ============================================================================
 // Shared helpers
@@ -318,6 +324,22 @@ export function buildReceiptHTML(invoiceData) {
 			</div>`;
 }
 
+function getInvoiceName(invoice) {
+	if (!invoice) return ''
+
+	if (typeof invoice === 'string') {
+		return invoice
+	}
+
+	return (
+		invoice.name ||
+		invoice.invoice_name ||
+		invoice.message?.name ||
+		invoice.data?.name ||
+		''
+	)
+}
+
 function buildReceiptDocumentHTML(invoiceData, { includeControls = false } = {}) {
 	const controls = includeControls
 		? `
@@ -325,6 +347,39 @@ function buildReceiptDocumentHTML(invoiceData, { includeControls = false } = {})
 				<button onclick="window.print()" style="padding: 10px 20px; font-size: 14px; cursor: pointer;">${__(
 					"Print Receipt"
 				)}</button>
+<!--				Boton para enviar factura por email y whatsapp-->
+
+<button
+  class="btn btn-sm btn-primary"
+  :disabled="!getInvoiceName(invoiceData)"
+  @click="showInvoiceEmailDialog = true"
+>
+  {{ __('Email') }}
+</button>
+
+<button
+  class="btn btn-sm btn-success"
+  :disabled="!getInvoiceName(invoiceData)"
+  @click="showInvoiceWhatsappDialog = true"
+>
+  {{ __('WhatsApp') }}
+</button>
+
+<InvoiceShareDialog
+  v-model="showInvoiceEmailDialog"
+  mode="email"
+  :invoice-name="getInvoiceName(invoiceData)"
+  :default-email="customer?.email_id || customer?.email || ''"
+/>
+
+<InvoiceShareDialog
+  v-model="showInvoiceWhatsappDialog"
+  mode="whatsapp"
+  :invoice-name="getInvoiceName(invoice)"
+  :default-phone="customer?.mobile_no || customer?.mobile || customer?.phone || ''"
+/>
+
+<!--Boton para enviar factura por email y whatsapp-->
 				<button onclick="window.close()" style="padding: 10px 20px; font-size: 14px; cursor: pointer; margin-left: 10px;">${__(
 					"Close"
 				)}</button>

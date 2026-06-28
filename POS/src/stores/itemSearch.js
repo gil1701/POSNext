@@ -558,7 +558,7 @@ export const useItemSearchStore = defineStore("itemSearch", () => {
 
 		// Step 4: Inject live stock quantities (optimized)
 		// Use a simple map operation - O(n) complexity
-		// const itemsWithStock = list.map((item) => {git
+		// const itemsWithStock = list.map((item) => {
 		// 	// Get display stock (includes reservations from cart)
 		// 	const displayStock = stockStore.getDisplayStock(item.item_code);
 		// 	// Get original server stock (without reservations)
