@@ -78,7 +78,7 @@ export default defineConfig({
 				theme_color: "#4F46E5",
 				background_color: "#ffffff",
 				display: "standalone",
-				scope: "/pos",
+				scope: "/assets/pos_next/pos/",
 				start_url: "/pos",
 				icons: [
 					{
@@ -212,16 +212,6 @@ export default defineConfig({
 		emptyOutDir: true,
 		target: "es2015",
 		sourcemap: enableSourceMap,
-		rollupOptions: {
-			output: {
-				manualChunks: {
-					vendor: ["vue", "vue-router", "pinia", "frappe-ui", "feather-icons"],
-				},
-				entryFileNames: "assets/index.js",
-				chunkFileNames: "assets/[name].js",
-				assetFileNames: "assets/[name].[ext]",
-			},
-		},
 	},
 	worker: {
 		format: "es",
