@@ -1,0 +1,17 @@
+{% extends "templates/web.html" %}
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
+<div id="app"></div>
+{% endblock %}
+
+{% block script %}
+<script type="module">
+    import { createApp } from 'vue';
+    // En producción, Frappe debería servir el archivo index.js generado por Vite
+    // Pero como estamos viendo un 404, necesitamos asegurar que el build de Vite
+    // coloque los archivos donde Frappe los busca.
+</script>
+{% endblock %}

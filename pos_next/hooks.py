@@ -63,17 +63,7 @@ doctype_js = {"Customer": "public/js/customer.js"}
 
 # application home page (will override Website Settings)
 # home_page = "login"
-
-# website user home page (by Role)
-# role_home_page = {
-# 	"Role": "home_page"
-# }
-
-# Generators
-# ----------
-
-# automatically create page for each record of this doctype
-# website_generators = ["Web Page"]
+website_generators = ["Web Page"]
 
 # Jinja
 # ----------
@@ -264,3 +254,10 @@ scheduler_events = {
 website_route_rules = [
 	{"from_route": "/pos/<path:app_path>", "to_route": "pos"},
 ]
+
+# Get unique build version for cache busting
+_asset_version = get_build_version()
+
+# include js, css files in header of web template
+web_include_css = f"/assets/pos_next/pos/assets/index.css?v={_asset_version}"
+web_include_js = f"/assets/pos_next/pos/assets/index.js?v={_asset_version}"
