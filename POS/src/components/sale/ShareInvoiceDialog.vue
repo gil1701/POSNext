@@ -2,7 +2,7 @@
 import { ref, watch, computed } from "vue";
 import { Dialog, Button, FeatherIcon, call } from "frappe-ui";
 import { __ } from "@/utils/translation";
-import { createToast } from "@/utils/toasts";
+import { useToast } from "@/composables/useToast";
 
 const props = defineProps({
 	show: Boolean,
@@ -16,6 +16,7 @@ const props = defineProps({
 });
 
 const emit = defineEmits(["update:show", "close"]);
+const { showSuccess, showError } = useToast();
 
 const show = computed({
 	get: () => props.show,
@@ -46,11 +47,7 @@ async function handleAction() {
 
 async function sendEmail() {
 	if (!email.value) {
-		createToast({
-			title: __("Error"),
-			text: __("Please enter a valid email address"),
-			variant: "error",
-		});
+		showError(__("Please enter a valid email address"));
 		return;
 	}
 
@@ -62,21 +59,13 @@ async function sendEmail() {
 		});
 
 		if (res.status === "success") {
-			createToast({
-				title: __("Success"),
-				text: __("Email sent successfully"),
-				variant: "success",
-			});
+			showSuccess(__("Email sent successfully"));
 			show.value = false;
 		} else {
 			throw new Error(res.message);
 		}
 	} catch (err) {
-		createToast({
-			title: __("Error sending email"),
-			text: err.message,
-			variant: "error",
-		});
+		showError(err.message);
 	} finally {
 		loading.value = false;
 	}
@@ -84,11 +73,7 @@ async function sendEmail() {
 
 async function openWhatsApp() {
 	if (!mobile.value) {
-		createToast({
-			title: __("Error"),
-			text: __("Please enter a valid mobile number"),
-			variant: "error",
-		});
+		showError(__("Please enter a valid mobile number"));
 		return;
 	}
 
@@ -106,11 +91,7 @@ async function openWhatsApp() {
 			throw new Error(res.message || __("Could not generate WhatsApp link"));
 		}
 	} catch (err) {
-		createToast({
-			title: __("Error"),
-			text: err.message,
-			variant: "error",
-		});
+		showError(err.message);
 	} finally {
 		loading.value = false;
 	}
