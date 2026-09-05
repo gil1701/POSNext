@@ -4,7 +4,6 @@
 
 import frappe
 from frappe import _
-from frappe.utils import cint
 
 from pos_next.api.utilities import _parse_list_parameter, check_user_company
 
@@ -153,7 +152,7 @@ def get_receivable_accounts(pos_profile):
 	if not company:
 		return []
 
-	allow_credit_sale = cint(
+	allow_credit_sale = int(
 		frappe.db.get_value("POS Settings", {"pos_profile": pos_profile}, "allow_credit_sale")
 	)
 	if not allow_credit_sale:
