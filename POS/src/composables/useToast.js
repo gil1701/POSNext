@@ -1,9 +1,9 @@
 import { ref, computed } from "vue";
 
 // Toast timing constants
-const TOAST_DURATION = 4000; // Auto-hide after 4 seconds
-const TOAST_FADE_DURATION = 300; // Fade animation duration
-const TOAST_QUEUE_DELAY = 300; // Delay between queued toasts
+const TOAST_DURATION = 3500; // Auto-hide after 3 seconds
+const TOAST_FADE_DURATION = 600; // Fade animation duration
+const TOAST_QUEUE_DELAY = 600; // Delay between queued toasts
 
 // Global toast state
 const toastQueue = ref([]);

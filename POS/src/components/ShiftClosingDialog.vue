@@ -979,7 +979,7 @@ import { useFormatters } from "../composables/useFormatters";
 import { useToast } from "../composables/useToast";
 import { usePOSSettingsStore } from "../stores/posSettings";
 import { usePOSShiftStore } from "../stores/posShift";
-import { printEODReport } from "../utils/printEod";
+import {printEODReport, printEODReportInBrowser} from "../utils/printEod";
 import TranslatedHTML from "./common/TranslatedHTML.vue";
 
 const props = defineProps({
@@ -1140,9 +1140,10 @@ async function submitClosing() {
 				await printEODReport(closingShiftName);
 				eodPrintFailed.value = null;
 			} catch (err) {
-				console.warn("[eod] print failed", err);
-				showWarning(__("EOD report did not print. Use the Reprint button to retry."));
+				console.warn("[eod] print failed, using browser print", err);
+				/*showWarning(__("EOD report did not print. Use the Reprint button to retry."));*/
 				eodPrintFailed.value = { closingShiftName };
+				printEODReportInBrowser(closingShiftName);
 				showSuccessReport.value = true;
 				return;
 			}
