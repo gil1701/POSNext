@@ -48,7 +48,7 @@
 									{{ closingData.pos_profile }}
 								</h3>
 								<p class="text-start text-xs md:text-sm text-gray-500 mt-1">
-									{{ formatDateTime(closingData.period_start_date) }}
+									{{ formatDate(closingData.period_start_date) }}
 								</p>
 							</div>
 							<div class="text-start sm:text-end">
@@ -264,7 +264,7 @@
 									>
 										<span>{{ invoice.customer }}</span>
 										<span class="text-gray-500">{{
-											formatDateTime(invoice.posting_date)
+											formatDate(invoice.posting_date)
 										}}</span>
 									</div>
 								</div>
@@ -360,7 +360,7 @@
 											<td
 												class="text-start px-6 py-4 whitespace-nowrap text-sm text-gray-500"
 											>
-												{{ formatDateTime(invoice.posting_date) }}
+												{{ formatDate(invoice.posting_date) }}
 											</td>
 											<td class="text-start px-6 py-4 whitespace-nowrap">
 												<span
@@ -1002,7 +1002,7 @@ const open = computed({
 });
 
 const { getClosingShiftData, submitClosingShift } = useShift();
-const { formatCurrency, formatQuantity, formatDateTime, formatTime } = useFormatters();
+const { formatCurrency, formatQuantity, formatDate } = useFormatters();
 const { showSuccess, showWarning } = useToast();
 const posSettingsStore = usePOSSettingsStore();
 const { hideExpectedAmount } = storeToRefs(posSettingsStore);
