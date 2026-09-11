@@ -1179,6 +1179,9 @@ async function retryEodPrint() {
 		closeDialog();
 	} catch (err) {
 		console.warn("[eod] retry print failed", err);
+		const closingShiftName = eodPrintFailed.value?.closingShiftName;
+		if (!closingShiftName) return;
+		printEODReportInBrowser(closingShiftName)
 		showWarning(__("EOD report did not print. Please check QZ Tray and retry."));
 	} finally {
 		retryPrintLoading.value = false;
